@@ -417,7 +417,8 @@ function getAlbumList( $args )
 				'hasSubalbum' => hasSubAlbums( $album->getID() ),
 				'albumpassword' => readZenPubData( $album->getID(), 'albumpassword' ),
 				'show' => $album->getShow(),
-				'commentson' => $album->getCommentsAllowed() 
+				'commentson' => $album->getCommentsAllowed(),
+				'thumbnail' =>$album->getAlbumThumbImage()->getFullImageURL()
 			) );
 	} //$allalbums as $albumfolder
 	return $list;
