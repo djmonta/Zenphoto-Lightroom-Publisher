@@ -162,10 +162,10 @@ function getFolderNode( $foldername )
 /**
  *    get all subalbums (if available)
  **/
-function getSubAlbums( $gallery, $album )
+function getSubAlbums( $album )
 {
 	$list     = array( );
-	$albumObj = new Album( $gallery, $album );
+	$albumObj = new Album( $album );
 	$albumID  = $albumObj->getID();
 	$parentID = getItemByID( "albums", $albumID );
 	if ( $albumObj->isDynamic() || !$albumID )
@@ -175,7 +175,7 @@ function getSubAlbums( $gallery, $album )
 	if ( is_array( $subalbums ) ) {
 		foreach ( $subalbums as $subalbum ) {
 			$list[ ] = $subalbum;
-			$list    = array_merge( $list, getSubAlbums( $gallery, $subalbum ) );
+			$list    = array_merge( $list, getSubAlbums( $subalbum ) );
 		} //$subalbums as $subalbum
 	} //is_array($subalbums)
 	return $list;
@@ -386,14 +386,14 @@ function getAlbumList( $args )
 	if ( is_array( $albums ) )
 		foreach ( $albums as $album ) {
 			$allalbums[ ] = $album;
-			foreach ( getSubAlbums( $gallery, $album ) as $sub )
+			foreach ( getSubAlbums( $album ) as $sub )
 				$allalbums[ ] = $sub;
 		} //$albums as $album
 	//
 	//    create album objects and get needed values
 	//
 	foreach ( $allalbums as $albumfolder ) {
-		$album = new Album( $gallery, $albumfolder );
+		$album = new Album( $albumfolder );
 		//
 		//    ignore dynamic albums
 		//
@@ -662,7 +662,7 @@ function createAlbum( $args )
 	else
 		@mkdir_recursive( $uploaddir, CHMOD_VALUE );
 	@chmod( $uploaddir, CHMOD_VALUE );
-	$album = new Album( $gallery, $folder );
+	$album = new Album( $folder );
 	if ( !$album->name )
 		return new ZEN_Error( -1, 'Album could not be created ' . $args[ 'name' ] );
 	$album->setTitle( $args[ 'name' ] );
