@@ -201,7 +201,7 @@ function entitysave( $list )
 function decode64( $args )
 {
 	$args = json_decode( base64_decode( $args ), true );
-	foreach ( $args[ 0 ] as $key => $value )
+	foreach ( $args as $key => $value )
 		$args[ $key ] = $value;
 	return $args;
 }
@@ -453,7 +453,8 @@ function getAlbumImages( $args )
 			'name' => $_zp_current_image->filename,
 			'shortdate' => date( "Y-m-d", ( strtotime( str_replace( " ", "", ( str_replace( ":", "", $imagedate ) ) ) ) ) ),
 			'longdate' => $imagedate,
-			'url' => WEBPATH . 'index.php?album=' . urlencode( $_zp_current_image->album->name ) . '&image=' . urlencode( $_zp_current_image->filename ) 
+			'url' => WEBPATH . 'index.php?album=' . urlencode( $_zp_current_image->album->name ) . '&image=' . urlencode( $_zp_current_image->filename ),
+			'folder' => $_zp_current_image->getAlbum()->getFolder()
 		) );
 	} //next_image( true )
 	//writelog((var_export($list, true)));
